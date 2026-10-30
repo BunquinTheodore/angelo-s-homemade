@@ -73,7 +73,7 @@ const EAGER_CARDS = 2;
 function productCardHTML(p, index = EAGER_CARDS) {
   return `
     <article class="card" data-tags="${[...p.tags, p.badge ? "best" : ""].join(" ").trim()}">
-      <button type="button" class="card-media" data-view="${p.id}" aria-label="Details: ${p.name}">
+      <button type="button" class="card-media" data-view="${p.id}">
         ${cardPictureHTML(p, { eager: index < EAGER_CARDS })}
         ${p.badge ? `<span class="badge">${p.badge}</span>` : ""}
         <span class="view-hint">Details</span>
