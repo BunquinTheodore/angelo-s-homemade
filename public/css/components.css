@@ -133,7 +133,6 @@
 .pm-body { padding: 32px; }
 .pm-body h2 { margin-bottom: 6px; }
 .pm-price strong { font-family: var(--font-display); font-size: 1.8rem; color: var(--red); }
-.pm-sub { font-size: 1rem; text-transform: uppercase; margin-top: 8px; }
 .pm-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin: 18px 0 12px; }
 .pm-actions .btn { flex: 1; min-width: 160px; }
 .keep-frozen { font-family: var(--font-display); text-transform: uppercase; letter-spacing: .08em; color: var(--ink-soft); margin: 0; }

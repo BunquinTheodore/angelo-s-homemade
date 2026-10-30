@@ -51,7 +51,6 @@ function openProduct(id) {
   $("[data-pm-price]").textContent = money(p.price);
   $("[data-pm-size]").textContent = p.size;
   $("[data-pm-desc]").textContent = p.desc;
-  $("[data-pm-cook]").textContent = p.cook;
   showDialog(modal);
   renderProductModalActions();
 }

@@ -39,8 +39,10 @@ public/                 The website (everything the browser loads)
     checkout.js         Checkout and online payment
     main.js             Starts everything
   images/
+api/                    Vercel functions (call server/handlers.js)
 server/                 The backend (never sent to the browser)
-  server.js             Web server, /api/checkout and /api/paymongo/webhook
+  handlers.js           Checkout and webhook logic shared by local and Vercel
+  server.js             Local web server for npm start
   order.js              Validates orders and computes totals from config.js
   paymongo.js           PayMongo Checkout Session and webhook signature check
   store.js              Saves orders to data/orders.json
@@ -61,6 +63,17 @@ Products with an empty `gallery` show the "Photo coming soon" placeholder. To ad
 1. Save a 720 x 470 card image as `public/images/cooked-ham.webp`.
 2. Save the full photo as `public/images/cooked-ham-photo.webp` (and a poster as `cooked-ham-poster.webp` if you have one).
 3. In `config.js`, add `gallery: ["photo"]` (or `["photo", "poster"]`) to that product.
+
+## Deploying on Vercel
+
+`vercel.json` serves `public/` and turns `api/` into functions. In the Vercel project settings, add these environment variables, then redeploy:
+
+- `PAYMONGO_SECRET_KEY` (sk_test_ while testing, sk_live_ when live)
+- `PAYMONGO_WEBHOOK_SECRET`
+- `PAYMONGO_PAYMENT_METHODS` (currently `qrph`)
+- `SITE_URL` (optional; defaults to the Vercel production address)
+
+Vercel has no permanent disk, so orders are not saved to `data/orders.json` there. Every order and confirmed payment is written to the Vercel function logs, and the PayMongo dashboard keeps the full payment record (order number, items, customer, amount).
 
 ## Going live with PayMongo
 

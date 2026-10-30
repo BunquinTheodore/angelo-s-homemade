@@ -27,7 +27,7 @@ function syncCheckoutForm() {
   $("[data-address-field]").hidden = isPickup;
   $("#f-address").required = !isPickup;
   const isOnline = selectedPayment() === "online";
-  const submitLabels = { online: "Continue to payment", qrph: "Place order and show QR", cod: "Place order" };
+  const submitLabels = { online: "Continue to QR Ph payment", qrph: "Place order and show QR", cod: "Place order" };
   $("[data-co-submit]").textContent = submitLabels[selectedPayment()];
   $("[data-secure-note]").hidden = !isOnline;
   renderCheckoutSummary();
@@ -81,7 +81,7 @@ function setAlert(message) {
 function setSubmitting(isSubmitting) {
   const btn = $("[data-co-submit]");
   btn.disabled = isSubmitting;
-  btn.textContent = isSubmitting ? "Connecting to PayMongo…" : "Continue to payment";
+  btn.textContent = isSubmitting ? "Connecting to PayMongo…" : "Continue to QR Ph payment";
 }
 
 function readCheckoutForm() {

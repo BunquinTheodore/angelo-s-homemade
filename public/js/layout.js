@@ -107,8 +107,6 @@ function productModalHTML() {
         <h2 id="pm-title" data-pm-name></h2>
         <p class="pm-price"><strong data-pm-price></strong> <span class="muted" data-pm-size></span></p>
         <p data-pm-desc></p>
-        <h3 class="pm-sub">How to cook</h3>
-        <p data-pm-cook class="muted"></p>
         <div class="pm-actions" data-pm-actions></div>
         <p class="keep-frozen">❄ Keep frozen</p>
       </div>
@@ -118,12 +116,12 @@ function productModalHTML() {
 
 function paymentChoicesHTML() {
   const online = CONFIG.onlinePayments
-    ? `<label class="choice"><input type="radio" name="payment" value="online" checked><span>Pay online now<small>GCash, Maya, card</small></span></label>`
+    ? `<label class="choice"><input type="radio" name="payment" value="online" checked><span>Pay now with QR Ph<small>Confirmed instantly</small></span></label>`
     : "";
   return `
     <div class="choice-row choice-row-3">
       ${online}
-      <label class="choice"><input type="radio" name="payment" value="qrph" ${CONFIG.onlinePayments ? "" : "checked"}><span>Scan QR Ph<small>Any bank or e-wallet</small></span></label>
+      <label class="choice"><input type="radio" name="payment" value="qrph" ${CONFIG.onlinePayments ? "" : "checked"}><span>Scan our QR code<small>Then send us your receipt</small></span></label>
       <label class="choice"><input type="radio" name="payment" value="cod"><span>Cash on delivery<small>or pay on pick up</small></span></label>
     </div>`;
 }
@@ -186,7 +184,7 @@ function checkoutModalHTML() {
           <div class="summary" data-co-summary></div>
           <p class="form-alert" data-co-alert role="alert" hidden></p>
           <button type="submit" class="btn btn-primary btn-block btn-lg" data-co-submit>Place order</button>
-          <p class="secure-note muted small" data-secure-note>🔒 Online payments are processed securely by PayMongo.</p>
+          <p class="secure-note muted small" data-secure-note>🔒 You will scan a QR Ph code on PayMongo's secure page using GCash, Maya or any bank app.</p>
         </form>
       </div>
 

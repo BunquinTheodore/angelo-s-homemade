@@ -37,67 +37,58 @@ const CATEGORIES = Object.freeze([
   { id: "chicken", label: "Chicken" },
 ]);
 
-const COOK = Object.freeze({
-  longganisa: "Simmer covered in half a cup of water until dry, then fry in its own oil on low heat, turning often, until sticky and brown.",
-  skinless: "Pan fry on medium low heat with a little oil, turning often, for 8 to 10 minutes until golden all over.",
-  hamonado: "Fry on low heat with a little oil for 3 to 4 minutes per side. Lower the heat if the edges darken too fast.",
-  ham: "Pan fry slices in a little butter or oil for 1 to 2 minutes per side, or enjoy in a sandwich.",
-  embotido: "Thaw, then steam or pan fry whole until heated through. Slice and serve with banana ketchup.",
-  tocino: "Simmer with a splash of water until it reduces, add a little oil, then fry on low heat until the glaze caramelizes.",
-  tapa: "Fry in a little oil on medium heat for 2 to 3 minutes per side. Best with garlic rice and egg.",
-});
 
 /*
  * gallery: photos available in public/images, named "<id>-<kind>.webp".
  * The card uses "<id>.webp". An empty gallery shows the "photo coming soon" placeholder.
  */
-const defineProduct = (id, name, tags, retail, wholesale, desc, cook, extra = {}) =>
-  Object.freeze({ id, name, tags, price: retail, wholesalePrice: wholesale, desc, cook, size: "per pack", badge: "", gallery: [], ...extra });
+const defineProduct = (id, name, tags, retail, wholesale, desc, extra = {}) =>
+  Object.freeze({ id, name, tags, price: retail, wholesalePrice: wholesale, desc, size: "per pack", badge: "", gallery: [], ...extra });
 
 const PRODUCTS = Object.freeze([
   defineProduct("chicken-hamonado", "Chicken Hamonado", ["hamonado", "chicken"], 40, 37,
-    "Sweet and savory chicken hamonado rounds with a glossy glaze. Our top pick.", COOK.hamonado,
+    "Sweet and savory chicken hamonado rounds with a glossy glaze. Our top pick.",
     { badge: "Top pick", size: "240 g pack", gallery: ["poster"] }),
   defineProduct("special-skinless", "Special Skinless", ["skinless", "longganisa"], 35, 32,
-    "No casing, all flavor. Tender, sweet and savory links that cook up in minutes.", COOK.skinless,
+    "No casing, all flavor. Tender, sweet and savory links that cook up in minutes.",
     { badge: "Best seller", size: "240 g pack", gallery: ["photo", "poster"] }),
   defineProduct("pork-longganisa", "Pork Longganisa", ["longganisa"], 40, 36,
-    "Our classic sweet and garlicky Filipino sausage in plump links. Caramelizes beautifully in the pan.", COOK.longganisa,
+    "Our classic sweet and garlicky Filipino sausage in plump links. Caramelizes beautifully in the pan.",
     { badge: "Top seller", size: "240 g pack", gallery: ["photo", "poster"] }),
   defineProduct("cooked-ham", "Cooked Ham", ["ham"], 52, 50,
-    "Tender, ready to eat sliced ham. Great fried for breakfast or stacked in a sandwich.", COOK.ham,
+    "Tender, ready to eat sliced ham. Great fried for breakfast or stacked in a sandwich.",
     { badge: "Top seller", size: "240 g pack" }),
   defineProduct("pork-hamonado", "Pork Hamonado", ["hamonado"], 40, 36,
-    "Sweet, ham style pork rounds sliced and ready to fry. A rich, glossy breakfast treat.", COOK.hamonado,
+    "Sweet, ham style pork rounds sliced and ready to fry. A rich, glossy breakfast treat.",
     { gallery: ["photo", "poster"] }),
   defineProduct("pork-embotido-mini", "Pork Embotido (Mini)", ["embotido"], 35, 31,
-    "Snack size Filipino meatloaf roll. Just steam or fry, slice and serve.", COOK.embotido),
+    "Snack size Filipino meatloaf roll. Just steam or fry, slice and serve."),
   defineProduct("chicken-longganisa", "Chicken Longganisa", ["longganisa", "chicken"], 40, 37,
-    "Our longganisa recipe made with chicken. Lighter, with the same sweet garlicky flavor.", COOK.longganisa),
+    "Our longganisa recipe made with chicken. Lighter, with the same sweet garlicky flavor."),
   defineProduct("pork-skinless", "Pork Skinless", ["skinless", "longganisa"], 35, 32,
-    "Classic pork skinless longganisa. Quick to cook and loved by kids.", COOK.skinless),
+    "Classic pork skinless longganisa. Quick to cook and loved by kids."),
   defineProduct("chicken-skinless", "Chicken Skinless", ["skinless", "longganisa", "chicken"], 35, 32,
-    "Skinless longganisa made with chicken. Tender, sweet and quick to cook.", COOK.skinless),
+    "Skinless longganisa made with chicken. Tender, sweet and quick to cook."),
   defineProduct("pork-embotido-big", "Pork Embotido (Big)", ["embotido"], 60, 55,
-    "A full size Filipino pork meatloaf roll, perfect for sharing.", COOK.embotido),
+    "A full size Filipino pork meatloaf roll, perfect for sharing."),
   defineProduct("chicken-embotido-big", "Chicken Embotido (Big)", ["embotido", "chicken"], 55, 50,
-    "A full size Filipino chicken meatloaf roll, perfect for sharing.", COOK.embotido),
+    "A full size Filipino chicken meatloaf roll, perfect for sharing."),
   defineProduct("sweet-spicy-longganisa", "Sweet and Spicy Longganisa", ["longganisa"], 60, 55,
-    "Our sweet longganisa with a kick of chili heat.", COOK.longganisa),
+    "Our sweet longganisa with a kick of chili heat."),
   defineProduct("native-longganisa", "Native Longganisa", ["longganisa"], 60, 60,
-    "Traditional, garlicky native style longganisa.", COOK.longganisa),
+    "Traditional, garlicky native style longganisa."),
   defineProduct("de-recado-longganisa", "De Recado (Garlic) Longganisa", ["longganisa"], 60, 58,
-    "Savory longganisa loaded with garlic, in the de recado style.", COOK.longganisa),
+    "Savory longganisa loaded with garlic, in the de recado style."),
   defineProduct("sweet-ham", "Sweet Ham", ["ham"], 45, 42,
-    "Sweet cured ham slices. Pan fry until the edges caramelize.", COOK.ham),
+    "Sweet cured ham slices. Pan fry until the edges caramelize."),
   defineProduct("ham-cheese-round", "Ham and Cheese (Round)", ["ham"], 45, 42,
-    "Ham and cheese in a round cut, ready to fry for breakfast or baon.", COOK.ham),
+    "Ham and cheese in a round cut, ready to fry for breakfast or baon."),
   defineProduct("ham-cheese-rectangle", "Ham and Cheese (Rectangle)", ["ham"], 45, 42,
-    "Ham and cheese in a rectangle cut, ready to fry for breakfast or baon.", COOK.ham),
+    "Ham and cheese in a rectangle cut, ready to fry for breakfast or baon."),
   defineProduct("pork-tapa", "Pork Tapa", ["tocino-tapa"], 70, 70,
-    "Savory marinated pork tapa. Fry and pair with garlic rice and egg for tapsilog.", COOK.tapa),
+    "Savory marinated pork tapa. Fry and pair with garlic rice and egg for tapsilog."),
   defineProduct("pork-tocino", "Pork Tocino", ["tocino-tapa"], 60, 55,
-    "Sweet cured pork slices with that signature red glaze. Made for a classic tosilog breakfast.", COOK.tocino,
+    "Sweet cured pork slices with that signature red glaze. Made for a classic tosilog breakfast.",
     { gallery: ["photo", "poster"] }),
 ]);
 
