@@ -26,10 +26,10 @@ function headerHTML(currentPage) {
         <picture><source type="image/avif" srcset="images/logo-340.avif"><img src="images/logo-340.webp" alt="Angelo's Homemade Meat Products since 2016" width="340" height="186"></picture>
       </a>
       <nav class="main-nav" aria-label="Main">${links}</nav>
-      <button class="cart-btn" type="button" data-open-cart aria-label="Open cart">
+      <button class="cart-btn" type="button" data-open-cart>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6.2" /><circle cx="10" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/></svg>
         <span class="cart-btn-label">Cart</span>
-        <span class="cart-count" data-cart-count aria-live="polite">0</span>
+        <span class="cart-count" data-cart-count aria-live="polite">0</span><span class="sr-only"> items in cart</span>
       </button>
     </div>
   </header>`;

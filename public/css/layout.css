@@ -80,7 +80,7 @@
 
 @media (max-width: 640px) {
   .brand img { width: 104px; }
-  .cart-btn-label { display: none; }
+  .cart-btn-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .mobile-cart-bar:not([hidden]) {
     display: flex; justify-content: space-between; align-items: center;
     position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 50;
