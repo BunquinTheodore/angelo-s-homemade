@@ -52,7 +52,7 @@ server/                 The backend (never sent to the browser)
 
 ## Editing prices and products
 
-Change `public/js/config.js`. The server reads the same file, so the price customers see is always the price they pay. Each product has a retail `price` and a `wholesalePrice`; wholesale applies to every line once the order reaches `wholesaleMinPacks` (50) packs in total.
+Change `public/js/config.js`. The server reads the same file, so the price customers see is always the price they pay. Only retail prices are on the website.
 
 After changing prices, restart the server (`npm start`) so online payments use the new prices.
 

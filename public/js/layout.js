@@ -80,8 +80,6 @@ function cartDrawerHTML() {
     <div class="free-meter" data-free-meter>
       <p data-free-text></p>
       <div class="meter"><span data-free-bar></span></div>
-      <p data-ws-text class="ws-text"></p>
-      <div class="meter meter-gold"><span data-ws-bar></span></div>
     </div>
     <div class="drawer-body" data-cart-items></div>
     <div class="drawer-foot" data-cart-foot>

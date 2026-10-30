@@ -21,7 +21,6 @@ test("prices items from the catalog and adds the delivery fee under the free thr
   assert.equal(order.subtotal, 40 * 2 + 60);
   assert.equal(order.deliveryFee, 80);
   assert.equal(order.total, 220);
-  assert.equal(order.wholesale, false);
   assert.equal(order.customer.phone, "09175551234");
 });
 
@@ -42,26 +41,21 @@ test("pick up is always free and does not need an address", () => {
   assert.equal(order.address, "");
 });
 
-test("49 packs stay at retail prices", () => {
-  const order = build(validBody({ items: [{ id: "pork-longganisa", qty: 29 }, { id: "pork-tocino", qty: 20 }] }));
-  assert.equal(order.wholesale, false);
-  assert.equal(order.subtotal, 29 * 40 + 20 * 60);
-});
-
-test("50 packs of any mix switch every line to wholesale prices", () => {
+test("large orders are still charged retail prices", () => {
   const order = build(validBody({ items: [{ id: "pork-longganisa", qty: 30 }, { id: "pork-tocino", qty: 20 }] }));
-  assert.equal(order.wholesale, true);
-  assert.equal(order.totalPacks, 50);
-  assert.deepEqual(order.lines.map((l) => l.unitPrice), [36, 55]);
-  assert.equal(order.subtotal, 30 * 36 + 20 * 55);
-  assert.equal(order.deliveryFee, 0);
+  assert.deepEqual(order.lines.map((l) => l.unitPrice), [40, 60]);
+  assert.equal(order.subtotal, 30 * 40 + 20 * 60);
+  assert.equal("wholesale" in order, false);
 });
 
-test("every product has a wholesale price no higher than retail", () => {
+test("the catalog holds retail prices only", () => {
   const { PRODUCTS } = require("../../public/js/config.js");
   assert.equal(PRODUCTS.length, 19);
-  for (const p of PRODUCTS) assert.ok(p.wholesalePrice <= p.price, p.id);
   assert.equal(new Set(PRODUCTS.map((p) => p.id)).size, PRODUCTS.length);
+  for (const p of PRODUCTS) {
+    assert.ok(Number.isInteger(p.price) && p.price > 0, p.id);
+    assert.equal("wholesalePrice" in p, false, p.id);
+  }
 });
 
 test("rejects unknown products, bad quantities and duplicates", () => {

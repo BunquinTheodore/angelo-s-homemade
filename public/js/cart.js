@@ -39,15 +39,11 @@ function clearCart() {
 
 const qtyOf = (id) => cart[id] || 0;
 const cartCount = () => Object.values(cart).reduce((sum, q) => sum + q, 0);
-const cartIsWholesale = () => isWholesaleOrder(cartCount());
-const cartLines = () => {
-  const totalPacks = cartCount();
-  return Object.entries(cart).map(([id, qty]) => {
+const cartLines = () =>
+  Object.entries(cart).map(([id, qty]) => {
     const product = findProduct(id);
-    const unitPrice = unitPriceFor(product, totalPacks);
-    return { product, qty, unitPrice, lineTotal: unitPrice * qty };
+    return { product, qty, unitPrice: product.price, lineTotal: product.price * qty };
   });
-};
 const cartSubtotal = () => cartLines().reduce((sum, l) => sum + l.lineTotal, 0);
 const deliveryFeeFor = (subtotal, method) =>
   method === "pickup" || subtotal >= CONFIG.freeDeliveryMin ? 0 : CONFIG.deliveryFee;
@@ -83,15 +79,18 @@ function productCardHTML(p) {
         <h3><button type="button" data-view="${p.id}">${p.name}</button></h3>
         <p class="card-desc">${p.desc}</p>
         <div class="price-row"><span class="price">${money(p.price)}</span><span class="size">${p.size}</span></div>
-        <p class="wholesale-note">Wholesale <strong>${money(p.wholesalePrice)}</strong> on ${CONFIG.wholesaleMinPacks}+ packs</p>
         <div class="buy-row" data-buy="${p.id}">${buyControlsHTML(p.id)}</div>
       </div>
     </article>`;
 }
 
+/* Products with real photos show first; the rest keep their catalog order. */
+const productsForDisplay = () => [...PRODUCTS].sort((a, b) => Number(b.gallery.length > 0) - Number(a.gallery.length > 0));
+
 function renderProducts() {
+  const list = productsForDisplay();
   $$("[data-product-grid]").forEach((grid) => {
-    grid.innerHTML = PRODUCTS.map(productCardHTML).join("");
+    grid.innerHTML = list.map(productCardHTML).join("");
   });
 }
 
@@ -121,13 +120,12 @@ function emptyCartHTML() {
 }
 
 function cartItemHTML({ product: p, qty, unitPrice, lineTotal }) {
-  const wholesale = unitPrice !== p.price;
   return `
     <div class="cart-item">
       <img src="${cardImage(p)}" alt="" width="76" height="76">
       <div>
         <h3>${p.name}</h3>
-        <p class="unit">${wholesale ? `<s>${money(p.price)}</s> <strong class="ws">${money(unitPrice)}</strong>` : money(unitPrice)} · ${p.size}</p>
+        <p class="unit">${money(unitPrice)} · ${p.size}</p>
         ${stepperHTML(p.id, qty, true)}
       </div>
       <div class="cart-item-side">
@@ -152,14 +150,6 @@ function renderCartDrawer() {
       ? `Add <strong>${money(remaining)}</strong> more for <strong>free delivery</strong>.`
       : `🎉 You unlocked <strong>free delivery</strong>!`;
   $("[data-free-bar]").style.width = `${Math.min(100, (subtotal / CONFIG.freeDeliveryMin) * 100)}%`;
-
-  const packs = cartCount();
-  const packsLeft = CONFIG.wholesaleMinPacks - packs;
-  $("[data-ws-text]").innerHTML =
-    packsLeft > 0
-      ? `Reselling? Add <strong>${packsLeft} more ${packsLeft === 1 ? "pack" : "packs"}</strong> (any mix) for <strong>wholesale prices</strong>.`
-      : `🎉 <strong>Wholesale prices</strong> applied to your whole order!`;
-  $("[data-ws-bar]").style.width = `${Math.min(100, (packs / CONFIG.wholesaleMinPacks) * 100)}%`;
 }
 
 function renderCounters() {

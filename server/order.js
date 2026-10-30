@@ -1,7 +1,7 @@
 "use strict";
 
 const crypto = require("node:crypto");
-const { CONFIG, PRODUCTS, MAX_QTY, isWholesaleOrder, unitPriceFor } = require("../public/js/config.js");
+const { CONFIG, PRODUCTS, MAX_QTY } = require("../public/js/config.js");
 
 const MAX_LINES = PRODUCTS.length;
 const PHONE_RE = /^(09\d{9}|\+639\d{9})$/;
@@ -32,11 +32,13 @@ function priceItems(items) {
     return { product, qty };
   });
 
-  const totalPacks = validated.reduce((sum, v) => sum + v.qty, 0);
-  return validated.map(({ product, qty }) => {
-    const unitPrice = unitPriceFor(product, totalPacks);
-    return { id: product.id, name: product.name, unitPrice, qty, lineTotal: unitPrice * qty };
-  });
+  return validated.map(({ product, qty }) => ({
+    id: product.id,
+    name: product.name,
+    unitPrice: product.price,
+    qty,
+    lineTotal: product.price * qty,
+  }));
 }
 
 function validateCustomer(body, today) {
@@ -77,7 +79,6 @@ function buildOrder(body, { orderId, today }) {
     ...details,
     lines,
     totalPacks,
-    wholesale: isWholesaleOrder(totalPacks),
     subtotal,
     deliveryFee,
     total: subtotal + deliveryFee,

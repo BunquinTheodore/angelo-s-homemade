@@ -12,12 +12,8 @@ function renderCheckoutSummary() {
   const rows = cartLines()
     .map(({ product, qty, lineTotal }) => `<div class="summary-line"><span>${qty} × ${product.name}</span><span>${money(lineTotal)}</span></div>`)
     .join("");
-  const wholesaleRow = cartIsWholesale()
-    ? `<div class="summary-line ws-applied"><span>Wholesale prices applied (${cartCount()} packs)</span><span>✓</span></div>`
-    : "";
   $("[data-co-summary]").innerHTML = `
     ${rows}
-    ${wholesaleRow}
     <div class="summary-line muted"><span>${selectedMethod() === "pickup" ? "Pick up" : "Delivery"}</span><span>${fee === 0 ? "Free" : money(fee)}</span></div>
     <div class="summary-line summary-total"><span>Total</span><span>${money(subtotal + fee)}</span></div>`;
 }
@@ -129,7 +125,6 @@ function buildOrderText(orderId, data) {
     "",
     ...items,
     "",
-    cartIsWholesale() ? `Wholesale prices applied (${cartCount()} packs)` : "",
     `Subtotal: ${money(subtotal)}`,
     `${data.method === "pickup" ? "Pick up" : "Delivery"}: ${fee === 0 ? "Free" : money(fee)}`,
     `TOTAL: ${money(subtotal + fee)}`,
