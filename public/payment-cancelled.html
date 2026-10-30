@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Payment Cancelled | Angelo's Homemade Meat Products</title>
+  <meta name="description" content="Your payment was not completed.">
+  <meta name="theme-color" content="#BF2428">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="images/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Kaushan+Script&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="payment-cancelled">
+  <main id="main">
+
+    <section class="section">
+      <div class="container result">
+        <div class="result-icon warn" aria-hidden="true">!</div>
+        <h1>Payment not completed</h1>
+        <p>No money was taken for order <strong data-return-order></strong>. Your cart is still saved, so you can try again or choose cash on delivery.</p>
+        <div class="center-actions">
+          <button type="button" class="btn btn-primary btn-lg" data-checkout>Try checkout again</button>
+          <button type="button" class="btn btn-ghost-dark btn-lg" data-open-cart>View cart</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/dialogs.js"></script>
+  <script src="js/checkout.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
