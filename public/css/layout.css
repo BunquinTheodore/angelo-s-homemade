@@ -44,7 +44,8 @@
 }
 .page-hero::before {
   content: ""; position: absolute; inset: 0;
-  background: url("../images/hero-table.webp") center 60% / cover no-repeat;
+  background: url("../images/hero-828.webp") center 60% / cover no-repeat;
+  background-image: image-set(url("../images/hero-828.avif") type("image/avif"), url("../images/hero-828.webp") type("image/webp"));
   opacity: .35;
 }
 .page-hero .container { position: relative; }

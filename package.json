@@ -7,8 +7,12 @@
     "node": ">=22.9"
   },
   "scripts": {
-    "start": "node --env-file-if-exists=.env server/server.js",
-    "dev": "node --watch --env-file-if-exists=.env server/server.js",
+    "build": "node build.mjs",
+    "start": "npm run build && node --env-file-if-exists=.env server/server.js",
+    "dev": "npm run build && node --watch --env-file-if-exists=.env server/server.js",
     "test": "node --test \"server/test/*.test.js\""
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.2"
   }
 }

@@ -1,6 +1,6 @@
 "use strict";
 
-/* Local server: serves public/ and the API. On Vercel, api/ and vercel.json do the same job. */
+/* Local server: serves the built dist/ folder and the API. On Vercel, api/ and vercel.json do the same job. */
 const http = require("node:http");
 const path = require("node:path");
 const { createHandlers, loadEnv } = require("./handlers.js");
@@ -8,7 +8,8 @@ const { createStore } = require("./store.js");
 const { serveStatic } = require("./static.js");
 
 const ROOT = path.resolve(__dirname, "..");
-const PUBLIC_DIR = path.join(ROOT, "public");
+/* Serves the built site. npm start runs the build first. */
+const PUBLIC_DIR = path.join(ROOT, "dist");
 const env = loadEnv();
 const store = createStore(process.env.ORDERS_FILE || path.join(ROOT, "data", "orders.json"));
 const handlers = createHandlers({ env, store });
@@ -21,8 +22,8 @@ const SECURITY_HEADERS = Object.freeze({
   "Content-Security-Policy": [
     "default-src 'self'",
     "script-src 'self'",
-    "style-src 'self' https://fonts.googleapis.com",
-    "font-src https://fonts.gstatic.com",
+    "style-src 'self' 'unsafe-inline'",
+    "font-src 'self'",
     "img-src 'self' data:",
     "connect-src 'self'",
     "frame-ancestors 'none'",

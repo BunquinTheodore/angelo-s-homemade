@@ -7,9 +7,7 @@
   <meta name="description" content="The story of Angelo's Homemade Meat Products, made by hand since 2016.">
   <meta name="theme-color" content="#BF2428">
   <link rel="icon" href="images/favicon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Kaushan+Script&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/components.css">
@@ -26,7 +24,10 @@
 
     <section class="section">
       <div class="container story-grid">
-        <img class="story-img" src="images/hero-portrait.webp" alt="Angelo's homemade meat products on a wooden table" width="1000" height="1250" loading="lazy">
+        <picture>
+          <source type="image/avif" srcset="images/story-480.avif 480w, images/story-800.avif 800w" sizes="(max-width: 900px) calc(100vw - 32px), 520px">
+          <img class="story-img" src="images/story-800.webp" srcset="images/story-480.webp 480w, images/story-800.webp 800w" sizes="(max-width: 900px) calc(100vw - 32px), 520px" alt="Angelo's homemade meat products on a wooden table" width="800" height="1000" loading="lazy" decoding="async">
+        </picture>
         <div>
           <p class="eyebrow">Where it started</p>
           <h2>A family kitchen that grew into a brand</h2>

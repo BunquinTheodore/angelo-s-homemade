@@ -23,7 +23,7 @@ function headerHTML(currentPage) {
   <header class="site-header">
     <div class="container header-inner">
       <a href="index.html" class="brand" aria-label="Angelo's home">
-        <img src="images/logo.webp" alt="Angelo's Homemade Meat Products since 2016" width="560" height="307">
+        <picture><source type="image/avif" srcset="images/logo-340.avif"><img src="images/logo-340.webp" alt="Angelo's Homemade Meat Products since 2016" width="340" height="186"></picture>
       </a>
       <nav class="main-nav" aria-label="Main">${links}</nav>
       <button class="cart-btn" type="button" data-open-cart aria-label="Open cart">
@@ -40,7 +40,7 @@ function footerHTML() {
   <footer class="site-footer">
     <div class="container footer-grid">
       <div>
-        <img src="images/logo.webp" alt="Angelo's" class="footer-logo" width="560" height="307" loading="lazy">
+        <picture><source type="image/avif" srcset="images/logo-340.avif"><img src="images/logo-340.webp" alt="Angelo's" class="footer-logo" loading="lazy" decoding="async" width="340" height="186"></picture>
         <p>Homemade meat products since 2016.</p>
         <p class="footer-address">${CONFIG.address}</p>
       </div>
@@ -213,7 +213,9 @@ function checkoutModalHTML() {
   </div>`;
 }
 
+/* Pages built by build.mjs already contain the layout. Only add it when missing (unbuilt source pages). */
 function renderLayout() {
+  if (document.querySelector(".site-header")) return;
   const page = document.body.dataset.page || "";
   document.body.insertAdjacentHTML("afterbegin", headerHTML(page));
   document.body.insertAdjacentHTML(

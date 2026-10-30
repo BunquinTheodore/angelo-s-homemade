@@ -8,7 +8,8 @@ Requires Node.js 22.9 or newer. No packages to install.
 
 ```bash
 cp .env.example .env     # then fill in your PayMongo keys
-npm start                # http://localhost:5173
+npm install              # once, installs the build tool
+npm start                # builds into dist/, then serves http://localhost:5173
 npm test                 # runs the server tests
 ```
 
@@ -56,11 +57,15 @@ Change `public/js/config.js`. The server reads the same file, so the price custo
 
 After changing prices, restart the server (`npm start`) so online payments use the new prices.
 
+## Speed
+
+`npm run build` (run automatically by `npm start` and on Vercel) writes the site to `dist/`: CSS is minified and inlined, JS is bundled into one cached file, and the header, footer and product cards are pre-rendered into the HTML. Edit files in `public/`, never in `dist/`.
+
 ## Adding product photos
 
 Products with an empty `gallery` show the "Photo coming soon" placeholder. To add a photo for, say, `cooked-ham`:
 
-1. Save a 720 x 470 card image as `public/images/cooked-ham.webp`.
+1. Save the card image (720 x 470) in four versions: `public/images/cooked-ham-400.avif`, `cooked-ham-400.webp`, `cooked-ham-720.avif` and `cooked-ham-720.webp`.
 2. Save the full photo as `public/images/cooked-ham-photo.webp` (and a poster as `cooked-ham-poster.webp` if you have one).
 3. In `config.js`, add `gallery: ["photo"]` (or `["photo", "poster"]`) to that product.
 

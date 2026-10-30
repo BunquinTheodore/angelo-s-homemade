@@ -13,6 +13,9 @@ const CONTENT_TYPES = Object.freeze({
   ".jpg": "image/jpeg",
   ".svg": "image/svg+xml",
   ".ico": "image/x-icon",
+  ".avif": "image/avif",
+  ".woff2": "font/woff2",
+  ".txt": "text/plain; charset=utf-8",
 });
 
 /** Serves files from publicDir only. Rejects path traversal and dotfiles. */
@@ -33,7 +36,8 @@ function serveStatic(publicDir, req, res) {
 
   fs.stat(filePath, (err, stat) => {
     if (err || !stat.isFile()) return sendNotFound(publicDir, res);
-    /* Code and pages always revalidate so price changes reach customers right away. Images can be cached. */
+    /* Pages revalidate so price changes show right away; hashed assets and fonts never change. */
+    const isImmutable = /^\/(assets|fonts)\//.test(pathname);
     const isImage = type.startsWith("image/");
     const lastModified = stat.mtime.toUTCString();
     if (req.headers["if-modified-since"] === lastModified) {
@@ -44,7 +48,7 @@ function serveStatic(publicDir, req, res) {
       "Content-Type": type,
       "Content-Length": stat.size,
       "Last-Modified": lastModified,
-      "Cache-Control": isImage ? "public, max-age=86400" : "no-cache",
+      "Cache-Control": isImmutable ? "public, max-age=31536000, immutable" : isImage ? "public, max-age=604800" : "no-cache",
     });
     if (req.method === "HEAD") return res.end();
     fs.createReadStream(filePath).pipe(res);

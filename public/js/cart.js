@@ -67,11 +67,14 @@ function buyControlsHTML(id) {
   return `${stepperHTML(id, qty)}<button type="button" class="btn btn-ghost-dark" data-open-cart>View cart</button>`;
 }
 
-function productCardHTML(p) {
+/* The first cards are usually on screen when the page opens, so they load right away. */
+const EAGER_CARDS = 2;
+
+function productCardHTML(p, index = EAGER_CARDS) {
   return `
     <article class="card" data-tags="${[...p.tags, p.badge ? "best" : ""].join(" ").trim()}">
       <button type="button" class="card-media" data-view="${p.id}" aria-label="View details for ${p.name}">
-        <img src="${cardImage(p)}" alt="${p.gallery.length ? p.name : `${p.name}, photo coming soon`}" width="720" height="470" loading="lazy">
+        ${cardPictureHTML(p, { eager: index < EAGER_CARDS })}
         ${p.badge ? `<span class="badge">${p.badge}</span>` : ""}
         <span class="view-hint">Details</span>
       </button>
@@ -87,15 +90,18 @@ function productCardHTML(p) {
 /* Products with real photos show first; the rest keep their catalog order. */
 const productsForDisplay = () => [...PRODUCTS].sort((a, b) => Number(b.gallery.length > 0) - Number(a.gallery.length > 0));
 
+/* Grids prerendered by build.mjs are left alone so their images are not reloaded. */
 function renderProducts() {
   const list = productsForDisplay();
   $$("[data-product-grid]").forEach((grid) => {
-    grid.innerHTML = list.map(productCardHTML).join("");
+    if (grid.children.length) return;
+    grid.innerHTML = list.map((p, i) => productCardHTML(p, i)).join("");
   });
 }
 
 function renderFilters() {
   $$("[data-filters]").forEach((el) => {
+    if (el.children.length) return;
     el.innerHTML = CATEGORIES.map(
       (c, i) =>
         `<button type="button" class="chip${i === 0 ? " is-active" : ""}" data-filter="${c.id}" aria-pressed="${i === 0}">${c.label}</button>`
@@ -122,7 +128,7 @@ function emptyCartHTML() {
 function cartItemHTML({ product: p, qty, unitPrice, lineTotal }) {
   return `
     <div class="cart-item">
-      <img src="${cardImage(p)}" alt="" width="76" height="76">
+      <img src="${cardImage(p)}" alt="" width="76" height="76" loading="lazy" decoding="async">
       <div>
         <h3>${p.name}</h3>
         <p class="unit">${money(unitPrice)} · ${p.size}</p>
