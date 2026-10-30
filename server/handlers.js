@@ -17,13 +17,19 @@ const ok = (data) => ({ status: 200, body: { success: true, data, error: null } 
 const fail = (status, error) => ({ status, body: { success: false, data: null, error } });
 const todayInManila = () => new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Manila" });
 
+const isLocalUrl = (url) => /^https?:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0)(:\d+)?(\/|$)/i.test(url || "");
+
 function loadEnv(source = process.env) {
   const port = Number(source.PORT) || 5173;
   const vercelUrl = source.VERCEL_PROJECT_PRODUCTION_URL ? `https://${source.VERCEL_PROJECT_PRODUCTION_URL}` : "";
   const secretKey = source.PAYMONGO_SECRET_KEY || "";
+  /* A localhost SITE_URL copied into a hosted deployment would send paying customers to a dead page. */
+  const hosted = Boolean(source.VERCEL);
+  const siteUrlSetting = hosted && isLocalUrl(source.SITE_URL) ? "" : source.SITE_URL;
+  if (hosted && siteUrlSetting !== source.SITE_URL) console.warn(`[env] ignoring SITE_URL=${source.SITE_URL} on Vercel; using ${vercelUrl}`);
   return Object.freeze({
     port,
-    siteUrl: (source.SITE_URL || vercelUrl || `http://localhost:${port}`).replace(/\/$/, ""),
+    siteUrl: (siteUrlSetting || vercelUrl || `http://localhost:${port}`).replace(/\/$/, ""),
     secretKey,
     isLive: secretKey.startsWith("sk_live_"),
     webhookSecret: source.PAYMONGO_WEBHOOK_SECRET || "",

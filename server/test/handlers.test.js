@@ -37,6 +37,13 @@ test("loadEnv prefers SITE_URL, then the Vercel production url, then localhost",
   assert.equal(loadEnv({ PAYMONGO_SECRET_KEY: "sk_live_abc" }).isLive, true);
 });
 
+test("on Vercel a localhost SITE_URL is ignored in favor of the production url", () => {
+  const hosted = { VERCEL: "1", VERCEL_PROJECT_PRODUCTION_URL: "angelos.vercel.app" };
+  assert.equal(loadEnv({ ...hosted, SITE_URL: "http://localhost:5173" }).siteUrl, "https://angelos.vercel.app");
+  assert.equal(loadEnv({ ...hosted, SITE_URL: "https://angelos.ph" }).siteUrl, "https://angelos.ph");
+  assert.equal(loadEnv({ SITE_URL: "http://localhost:5173" }).siteUrl, "http://localhost:5173");
+});
+
 test("expectedCentavos falls back to the session line items when no order is stored", () => {
   const session = JSON.parse(paidEvent(16000)).data.attributes.data;
   assert.equal(expectedCentavos(null, session), 16000);
